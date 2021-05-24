@@ -235,5 +235,53 @@ Traceback (most recent call last):
     from app import routes
   File "FlaskTutorial/app/routes.py", line 1, in <module>
     from app import app
-ImportError: cannot import name 'app' from partially initialized module 'app' (most likely due to a circular import) (/home/chmay/src/scratch/FlaskTutorial/app/__init__.py)
+ImportError: cannot import name 'app' from partially initialized module 'app' (most likely due to a circular import) (FlaskTutorial/app/__init__.py)
+----
+
+IMPORTANT: The Flask app had to be run in order to get this error; steps to run are defined in the next section.
+
+
+=== Flask App
+
+Up through this point, two things have been created:
+
+* The `app` package has been created with an endpoint (route)
+* The package initialization logic to create a `Flask` instance and reference those endpoints.
+
+The final piece of the puzzle is the ability to activate the `app` package:
+
+.microblog.py
+[source, python]
+----
+from app import app
+----
+
+TIP: `microblog.py` is used due to the nature of the tutorial, but the filename is not important -- only the content.
+
+
+With this top-level script defined, the flask app is ready to run.
+Set the `FLASK_APP` variable to the top-level script name (`microblog.py`, in this case) and then run the Flask application:
+
+
+[source, bash]
+----
+$ export FLASK_APP=microblog.py
+$ flask run
+ * Serving Flask app 'microblog.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+----
+
+TIP: The variable must be exported for each new shell, OR, it can be handled once via the `python-dotenv` package (to be discussed in another section below).
+
+
+Verify that the application is running using any means for testing a RESTful `GET` endpoint (e.g., by hitting it through the browser, or via `curl`):
+
+[source, bash]
+----
+$ curl http://localhost:5000
+Hello, World!
 ----
