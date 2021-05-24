@@ -285,3 +285,15 @@ Verify that the application is running using any means for testing a RESTful `GE
 $ curl http://localhost:5000
 Hello, World!
 ----
+
+
+=== python-dotenv
+
+When a shell session ends, the `FLASK_APP` variable is lost.
+While this can be redefined each time we want to use it, there is a repository-specific way to set this variable, using the `python-dotenv` package:
+
+[source, bash]
+----
+pip install python-dotenv
+----
+
