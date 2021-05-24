@@ -145,10 +145,11 @@ ModuleNotFoundError: No module named 'flask'
 
 == Chapter 1: Hello, World!
 
-=== `__init__.py`
+=== \\__init__.py
 
-The file `app/__init__.py` was given the following content:
+The file `app/\\__init__.py` was given the following content:
 
+.\\__init__.py
 [source, python]
 ----
 from flask import Flask
@@ -174,16 +175,16 @@ This will be done on the next line of code.
 app = Flask(__name__)
 ----
 
-The `__name__` variable is a Python built-in variable which evaluates to the name of the current module.
+The `\\__name__` variable is a Python built-in variable which evaluates to the name of the current module.
 
-* If run from the command line, the module name is `__main__` (i.e., `__name__ == "__main__"`)
+* If run from the command line, the module name is `\\__main__` (i.e., `\\__name__ == "\\__main__"`)
 * If imported from another module, use that module's name
 
 The code above creates an object (`app`) which is an instance of the class `Flask`;
 `app` is then used to import `routes`, which does not yet exist
 (this will be defined later, but we know it's coming; to be discussed in further depth below).
 
-TIP: Passing in `__name__` when creating the `Flask` object will almost always create what we are looking for;
+TIP: Passing in `\\__name__` when creating the `Flask` object will almost always create what we are looking for;
 advanced cases will be outside the scope of the tutorial.
 
 
@@ -196,8 +197,43 @@ The `routes` module is purposely imported at the end, instead of at the beginnin
 This is a workaround for *circular imports*, which are apparently a common occurrence in Flask.
 
 Note that `app` here is different from the `app` on the line above.
-Here, we are referring to the `app` package, which is the folder where `__init__.py` lives.
+Here, we are referring to the `app` package, which is the folder where `\\__init__.py` lives.
 On the previous line, `app` is the variable holding the `Flask` class instance.
 These names are unrelated, and either/or can be changed to something else
 (though changing the package requires renaming the folder as well)
 
+=== Routes
+
+Routes refer to the endpoints exposed by the Flask application.
+
+.routes.py
+[source, python]
+----
+from app import app
+
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Hello, World!"
+----
+
+The first line imports the object `app` from the `app` package;
+i.e., bring in the `Flask` instance instantiated in `__init__.py`.
+This is why the `from app import routes` line is at the end of `__init__.py` instead of at the top;
+attempting to import `routes` before defining `app`, creates a circular reference, as shown by the error below:
+
+[source, bash]
+----
+Error: While importing 'microblog', an ImportError was raised:
+
+Traceback (most recent call last):
+  File "FlaskTutorial/venv/lib64/python3.9/site-packages/flask/cli.py", line 256, in locate_app
+    __import__(module_name)
+  File "FlaskTutorial/microblog.py", line 1, in <module>
+    from app import app
+  File "FlaskTutorial/app/__init__.py", line 4, in <module>
+    from app import routes
+  File "FlaskTutorial/app/routes.py", line 1, in <module>
+    from app import app
+ImportError: cannot import name 'app' from partially initialized module 'app' (most likely due to a circular import) (/home/chmay/src/scratch/FlaskTutorial/app/__init__.py)
+----
