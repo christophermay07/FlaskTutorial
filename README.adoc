@@ -126,7 +126,7 @@ Once Flask is installed, verify it using the Python interpreter:
 ----
 >>> import flask
 >>>
----
+----
 
 
 If Flask failed to install correctly, an error will occur on attempting to import:
