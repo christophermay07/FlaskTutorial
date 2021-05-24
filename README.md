@@ -1,3 +1,20 @@
+ifdef::env-github[]
+// General Settings
+:status:
+:outfilesuffix: .adoc
+
+// Links & Images
+// (must define images dir to use inline)
+// :imagesdir: https://gist.githubusercontent.com/path/to/gist/revision/dir/with/all/images
+
+// Admonitions
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 = Flask Mega-Tutorial
 
 This repo will be used to follow the Flask Mega-Tutorial, along with any additions or experimentation along the way:
